@@ -1,22 +1,24 @@
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Juego";
 }
 
 <div>
     <h1>AhorcadORT</h1>
     <img src="#">
     <input id="palabra" type="Hidden" value="@ViewBag.palabra">
-    <input id="rayitas" type="Hidden">
+    <p id="rayitas"></p>
     <input id="intentos" type="Hidden">
 
-    <form action='@Url.Action("GuardarDatos", "Home")' method="POST" enctype="multipart/form-data">
+    <!-- <form id="finJuegoForm" asp-controller="Home" asp-action="FinJuego" method="get">
+        <input id="intentos" name="intentos" type="hidden" value="0">
+    </form> -->
+
     <input id="inputUsuario" type="text" placeholder="Elegir letra o palabra" name="eleccion">
-    <a href='@Url.Action("Index", "Home")'>Inicio</a>
-    <input id="perdio" type="Hidden">
 
 
-    <button onclick="arriesgarLetra()">
-    <button onclick="arriesgarPalabra()">
+
+    <button onclick="arriesgarLetra()">Arriesgar Letra</button>
+    <button onclick="arriesgarPalabra()">Arriesgar Palabra</button>
     
 </div>
 
@@ -50,9 +52,10 @@
         let encontro = false
         let ciclos = 0
 
-        while (encontro = false && ciclos < palabra.length) {
+debugger
+        while (encontro == false && ciclos < palabra.length) {
             
-            if(palabra[ciclos] == document.getElementById("inputUsuario")){
+            if(palabra[ciclos] == document.getElementById("inputUsuario").value){
 
                 encontro = true
 
@@ -61,29 +64,33 @@
         }
 
         if(encontro){
-            letrasEncotradas.push(document.getElementById("inputUsuario"))
+            letrasEncotradas.push(document.getElementById("inputUsuario").value)
         }
         else{
-            document.getElementById("intentos").value = document.getElementById("intentos").value + 1
+            let intentos = parseInt(document.getElementById("intentos").value) || 0
+            document.getElementById("intentos").value = intentos + 1
         }
         crearTablero(letrasEncotradas)
         if(letrasEncotradas.length = palabra.length){
-            alert("felicitaciones")
-            document.getElementById("gano").type = "button"
+            // finJuego()
         }
         return encontro
     }
 
     function arriesgarPalabra() {
-        if(palabra == document.getElementById("inputUsuario")){
-            alert("felicitaciones")
-            document.getElementById("gano").type = "button"
+        if(palabra == document.getElementById("inputUsuario").value){
+            // finJuego()
         }
         else{
-            alert("perdiste")
-            document.getElementById("perdio").type = "button"
+            alert("incorrecto")
+            let intentos = parseInt(document.getElementById("intentos").value) || 0
+            document.getElementById("intentos").value = intentos + 1
         }
     }
+
+    // function finJuego() {
+    //     document.getElementById("finJuegoForm").submit()
+    // }
 
 
 </script>

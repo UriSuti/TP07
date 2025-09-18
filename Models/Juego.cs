@@ -11,6 +11,12 @@ public class Juego
     private Usuario jugadorActual;
     public string palabra { get; private set; }
 
+    public Juego()
+    {
+        listaPalabras = new List<Palabra>();
+        jugadores = new List<Usuario>();
+    }
+
     private void llenarListaPalabras()
     {
         listaPalabras.Add(new Palabra("perro", 1));
@@ -57,9 +63,7 @@ public class Juego
 
     public void InicializarJuego(string usuario, int dificultad)
     {
-        listaPalabras = new List<Palabra>();
         llenarListaPalabras();
-        jugadores = new List<Usuario>();
         jugadorActual = new Usuario(usuario, 0);
         palabra = CargarPalabra(dificultad);
     }
@@ -85,6 +89,11 @@ public class Juego
     public List<Usuario> DevolverListaUsuarios()
     {
         int n = jugadores.Count;
+
+        if (n == 0)
+        {
+            return jugadores;
+        }
 
         for (int i = 0; i < n - 1; i++)
         {

@@ -6,12 +6,15 @@
     <h1>AhorcadORT</h1>
     <img src="#">
 
-    <form action='@Url.Action("Comenzar", "index")' method="POST" enctype="multipart/form-data">
-    <input type="text" placeholder="Nombre de usuario" name="usuario">
-    <input type="number" placeholder="Dificultad" name="dificultad">
+    <form action='@Url.Action("Comenzar", "Home")' method="POST" enctype="multipart/form-data">
+        <input type="text" placeholder="Nombre de usuario" name="username">
+        <input type="number" placeholder="Dificultad" name="dificultad">
+        <input type="submit" value="Jugar">
+    </form>
 
 
-    @foreach (Usuario usuario in ViewBag.jugadoresYaCompitieron){
+    @foreach (Usuario usuario in ViewBag.jugadoresYaCompitieron)
+    {
         <h3>@usuario.nombre</h3>
         <p>@usuario.cantidadIntentos</p>
     }
