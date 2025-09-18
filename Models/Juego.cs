@@ -1,16 +1,15 @@
+using Newtonsoft.Json;
 namespace TP07.Models;
 
 public class Juego
 {
+    [JsonProperty]
     private List<Palabra> listaPalabras;
+    [JsonProperty]
     private List<Usuario> jugadores;
+    [JsonProperty]
     private Usuario jugadorActual;
-
-    public Juego()
-    {
-        this.listaPalabras = new List<Palabra>();
-        this.jugadores = new List<Usuario>();
-    }
+    public string palabra { get; private set; }
 
     private void llenarListaPalabras()
     {
@@ -58,11 +57,48 @@ public class Juego
 
     public void InicializarJuego(string usuario, int dificultad)
     {
-
+        listaPalabras = new List<Palabra>();
+        llenarListaPalabras();
+        jugadores = new List<Usuario>();
+        jugadorActual = new Usuario(usuario, 0);
+        palabra = CargarPalabra(dificultad);
     }
 
     private string CargarPalabra(int dificultad)
     {
-        
+        Random random = new Random();
+        do
+        {
+            int indice = random.Next(listaPalabras.Count);
+            if (listaPalabras[indice].dificultad == dificultad)
+            {
+                return listaPalabras[indice].texto;
+            }
+        } while (true);
+    }
+
+    public void FinJuego(int intentos)
+    {
+        jugadores.Add(new Usuario(jugadorActual.nombre, intentos));
+    }
+
+    public List<Usuario> DevolverListaUsuarios()
+    {
+        int n = jugadores.Count;
+
+        for (int i = 0; i < n - 1; i++)
+        {
+            for (int j = 0; j < n - i - 1; j++)
+            {
+                if (jugadores[j].cantidadIntentos > jugadores[j + 1].cantidadIntentos)
+                {
+                    Usuario usu = jugadores[j];
+                    jugadores[j] = jugadores[j + 1];
+                    jugadores[j + 1] = usu;
+                }
+            }
+        }
+
+        return jugadores;
     }
 }
