@@ -1,0 +1,89 @@
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div>
+    <h1>AhorcadORT</h1>
+    <img src="#">
+    <input id="palabra" type="Hidden" value="@ViewBag.palabra">
+    <input id="rayitas" type="Hidden">
+    <input id="intentos" type="Hidden">
+
+    <form action='@Url.Action("GuardarDatos", "Home")' method="POST" enctype="multipart/form-data">
+    <input id="inputUsuario" type="text" placeholder="Elegir letra o palabra" name="eleccion">
+    <a href='@Url.Action("InfoEstudiante", "Estudiante")' alt="Ir al estudiante seleccionado">Federico Perchuk</a>
+    <input id="perdio" type="Hidden">
+
+
+    <button onclick="arriesgarLetra()">
+    <button onclick="arriesgarPalabra()">
+    
+</div>
+
+<script>
+
+    const palabra = document.getElementById("palabra").value
+    let letrasEncotradas = []
+
+
+    function crearTablero(letras){
+
+        document.getElementById("rayitas").innerHTML = ""
+
+        for(let char of palabra){
+            
+            if(letras.includes(char)){
+                document.getElementById("rayitas").innerHTML += char
+            }
+            else{
+                document.getElementById("rayitas").innerHTML += "_ "
+            }
+    
+        }
+
+    }
+
+    crearTablero(letrasEncotradas)
+
+    function arriesgarLetra() {
+
+        let encontro = false
+        let ciclos = 0
+
+        while (encontro = false && ciclos < palabra.length) {
+            
+            if(palabra[ciclos] == document.getElementById("inputUsuario")){
+
+                encontro = true
+
+            }
+            ciclos++
+        }
+
+        if(encontro){
+            letrasEncotradas.push(document.getElementById("inputUsuario"))
+        }
+        else{
+            document.getElementById("intentos").value = document.getElementById("intentos").value + 1
+        }
+        crearTablero(letrasEncotradas)
+        if(letrasEncotradas.length = palabra.length){
+            alert("felicitaciones")
+            document.getElementById("gano").type = "button"
+        }
+        return encontro
+    }
+
+    function arriesgarPalabra() {
+        if(palabra == document.getElementById("inputUsuario")){
+            alert("felicitaciones")
+            document.getElementById("gano").type = "button"
+        }
+        else{
+            alert("perdiste")
+            document.getElementById("perdio").type = "button"
+        }
+    }
+
+
+</script>

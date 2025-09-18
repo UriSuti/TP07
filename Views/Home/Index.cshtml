@@ -3,6 +3,16 @@
 }
 
 <div>
-    <h1>Index</h1>
-    <p>Bienvenidos al sitio web de NombreProyecto</p>
+    <h1>AhorcadORT</h1>
+    <img src="#">
+
+    <form action='@Url.Action("Comenzar", "index")' method="POST" enctype="multipart/form-data">
+    <input type="text" placeholder="Nombre de usuario" name="usuario">
+    <input type="number" placeholder="Dificultad" name="dificultad">
+
+
+    @foreach (Usuario usuario in ViewBag.jugadoresYaCompitieron){
+        <h3>@usuario.nombre</h3>
+        <p>@usuario.cantidadIntentos</p>
+    }
 </div>
