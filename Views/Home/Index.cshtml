@@ -1,21 +1,23 @@
-﻿@{
-    ViewData["Title"] = "Index";
+﻿@{ 
+    ViewData["Title"] = "Index"; 
 }
 
-<div>
-    <h1>AhorcadORT</h1>
-    <img src="#">
-
-    <form action='@Url.Action("Comenzar", "Home")' method="POST" enctype="multipart/form-data">
-        <input type="text" placeholder="Nombre de usuario" name="username">
-        <input type="number" placeholder="Dificultad" name="dificultad">
-        <input type="submit" value="Jugar">
+<div class="wrap">
+    <h1 class="title">AhorcadORT</h1>
+    <form class="form" action='@Url.Action("Comenzar", "Home")' method="POST" enctype="multipart/form-data">
+        <input class="input" type="text" placeholder="Nombre de usuario" name="username">
+        <input class="input" type="number" placeholder="Dificultad" name="dificultad">
+        <input class="btn" type="submit" value="Jugar">
     </form>
 
-
-    @foreach (Usuario usuario in ViewBag.jugadoresYaCompitieron)
-    {
-        <h3>@usuario.nombre</h3>
-        <p>@usuario.cantidadIntentos</p>
-    }
+    <h2 class="subtitle">Jugadores</h2>
+    <div class="players">
+        @foreach (Usuario usuario in ViewBag.jugadoresYaCompitieron)
+        {
+            <div class="player">
+                <h3 class="player__name">@usuario.nombre</h3>
+                <p class="player__tries">@usuario.cantidadIntentos intentos</p>
+            </div>
+        }
+    </div>
 </div>

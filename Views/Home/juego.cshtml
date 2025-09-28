@@ -1,96 +1,111 @@
-@{
-    ViewData["Title"] = "Juego";
-}
+@{ ViewData["Title"] = "Juego"; }
 
-<div>
-    <h1>AhorcadORT</h1>
-    <img src="#">
-    <input id="palabra" type="Hidden" value="@ViewBag.palabra">
-    <p id="rayitas"></p>
-    <input id="intentos" type="Hidden">
+<div class="wrap">
+    <h1 class="title">AhorcadORT</h1>
+    <input id="palabra" type="hidden" value="@ViewBag.palabra">
+    <p id="rayitas" class="word"></p>
+    <input id="intentos" type="hidden" value="0">
 
-    <!-- <form id="finJuegoForm" asp-controller="Home" asp-action="FinJuego" method="get">
-        <input id="intentos" name="intentos" type="hidden" value="0">
-    </form> -->
+    <div class="row">
+        <input id="inputUsuario" class="input" type="text" placeholder="Elegir letra o palabra" name="eleccion">
+        <div class="btns">
+            <button class="btn" onclick="arriesgarLetra()">Arriesgar Letra</button>
+            <button class="btn btn--alt" onclick="arriesgarPalabra()">Arriesgar Palabra</button>
+        </div>
+    </div>
 
-    <input id="inputUsuario" type="text" placeholder="Elegir letra o palabra" name="eleccion">
-
-
-
-    <button onclick="arriesgarLetra()">Arriesgar Letra</button>
-    <button onclick="arriesgarPalabra()">Arriesgar Palabra</button>
-    
+    <form id="finJuegoForm" action='@Url.Action("FinJuego", "Home")' method="POST" encode="multipart/form-data">
+        <input id="intentosHidden" name="intentos" type="hidden" value="0">
+    </form>
 </div>
 
+
 <script>
+    let palabra = document.getElementById("palabra").value;
+    let letrasEncontradas = [];
 
-    const palabra = document.getElementById("palabra").value
-    let letrasEncotradas = []
-
-
-    function crearTablero(letras){
-
-        document.getElementById("rayitas").innerHTML = ""
-
-        for(let char of palabra){
-            
-            if(letras.includes(char)){
-                document.getElementById("rayitas").innerHTML += char
-            }
-            else{
-                document.getElementById("rayitas").innerHTML += "_ "
-            }
-    
+    function contiene(arr, elem) {
+        for (let i = 0; i < arr.length; i++) {
+            if (arr[i] === elem) return true;
         }
-
+        return false;
     }
 
-    crearTablero(letrasEncotradas)
+    function crearTablero() {
+        let salida = "";
+        for (let i = 0; i < palabra.length; i++) {
+            let ch = palabra[i];
+            if (contiene(letrasEncontradas, ch)) {
+                salida += ch + " ";
+            } else {
+                salida += "_ ";
+            }
+        }
+        document.getElementById("rayitas").innerHTML = salida;
+    }
+
+    function tableroCompleto() {
+        for (let i = 0; i < palabra.length; i++) {
+            if (!contiene(letrasEncontradas, palabra[i])) return false;
+        }
+        return true;
+    }
+
+    function incrementarIntentos() {
+        let intentosEl = document.getElementById("intentos");
+        let intentos = parseInt(intentosEl.value, 10) || 0;
+        intentosEl.value = intentos + 1;
+    }
+
+    function limpiarInput() {
+        let input = document.getElementById("inputUsuario");
+        input.value = "";
+    }
+
+    crearTablero();
 
     function arriesgarLetra() {
+        let input = document.getElementById("inputUsuario");
+        let letra = input.value;
+        if (!letra || letra.length !== 1) { limpiarInput(); return false; }
 
-        let encontro = false
-        let ciclos = 0
+        let encontro = false;
+        for (let i = 0; i < palabra.length; i++) {
+            if (palabra[i] === letra) { encontro = true; break; }
+        }
 
-debugger
-        while (encontro == false && ciclos < palabra.length) {
-            
-            if(palabra[ciclos] == document.getElementById("inputUsuario").value){
-
-                encontro = true
-
+        if (encontro) {
+            if (!contiene(letrasEncontradas, letra)) {
+                letrasEncontradas.push(letra);
             }
-            ciclos++
+        } else {
+            incrementarIntentos();
         }
 
-        if(encontro){
-            letrasEncotradas.push(document.getElementById("inputUsuario").value)
+        crearTablero();
+
+        if (tableroCompleto()) {
+            finJuego();
         }
-        else{
-            let intentos = parseInt(document.getElementById("intentos").value) || 0
-            document.getElementById("intentos").value = intentos + 1
-        }
-        crearTablero(letrasEncotradas)
-        if(letrasEncotradas.length = palabra.length){
-            // finJuego()
-        }
-        return encontro
+
+        limpiarInput();
+        return encontro;
     }
 
     function arriesgarPalabra() {
-        if(palabra == document.getElementById("inputUsuario").value){
-            // finJuego()
+        let intento = document.getElementById("inputUsuario").value;
+        if (intento === palabra) {
+            finJuego();
+        } else {
+            alert("incorrecto");
+            incrementarIntentos();
         }
-        else{
-            alert("incorrecto")
-            let intentos = parseInt(document.getElementById("intentos").value) || 0
-            document.getElementById("intentos").value = intentos + 1
-        }
+        limpiarInput();
     }
 
-    // function finJuego() {
-    //     document.getElementById("finJuegoForm").submit()
-    // }
-
-
+    function finJuego() {
+        let intentosHidden = parseInt(document.getElementById("intentos").value);
+        document.getElementById("intentosHidden").value = intentosHidden;
+        document.getElementById("finJuegoForm").submit();
+    }
 </script>
