@@ -28,7 +28,7 @@
         let salida = "";
         for (let i = 0; i < palabra.length; i++) {
             let ch = palabra[i];
-            if (letrasEncontradas.Contains(ch)) {
+            if (letrasEncontradas.includes(ch)) {
                 salida += ch + " ";
             } else {
                 salida += "_ ";
@@ -39,7 +39,7 @@
 
     function tableroCompleto() {
         for (let i = 0; i < palabra.length; i++) {
-            if (!letrasEncontradas.Contains(palabra[i])) return false;
+            if (!letrasEncontradas.includes(palabra[i])) return false;
         }
         return true;
     }
@@ -68,7 +68,7 @@
         }
 
         if (encontro) {
-            if (!letrasEncontradas.Contains(letra)) {
+            if (!letrasEncontradas.includes(letra)) {
                 letrasEncontradas.push(letra);
             }
         } else {
