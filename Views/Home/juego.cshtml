@@ -24,18 +24,11 @@
     let palabra = document.getElementById("palabra").value;
     let letrasEncontradas = [];
 
-    function contiene(arr, elem) {
-        for (let i = 0; i < arr.length; i++) {
-            if (arr[i] === elem) return true;
-        }
-        return false;
-    }
-
     function crearTablero() {
         let salida = "";
         for (let i = 0; i < palabra.length; i++) {
             let ch = palabra[i];
-            if (contiene(letrasEncontradas, ch)) {
+            if (letrasEncontradas.Contains(ch)) {
                 salida += ch + " ";
             } else {
                 salida += "_ ";
@@ -46,7 +39,7 @@
 
     function tableroCompleto() {
         for (let i = 0; i < palabra.length; i++) {
-            if (!contiene(letrasEncontradas, palabra[i])) return false;
+            if (!letrasEncontradas.Contains(palabra[i])) return false;
         }
         return true;
     }
@@ -75,7 +68,7 @@
         }
 
         if (encontro) {
-            if (!contiene(letrasEncontradas, letra)) {
+            if (!letrasEncontradas.Contains(letra)) {
                 letrasEncontradas.push(letra);
             }
         } else {
