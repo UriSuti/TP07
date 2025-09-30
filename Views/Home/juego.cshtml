@@ -5,7 +5,8 @@
     <input id="palabra" type="hidden" value="@ViewBag.palabra">
     <p id="rayitas" class="word"></p>
     <input id="intentos" type="hidden" value="0">
-
+    
+    <p id="intentadas" class="word"></p>
     <div class="row">
         <input id="inputUsuario" class="input" type="text" placeholder="Elegir letra o palabra" name="eleccion">
         <div class="btns">
@@ -48,6 +49,24 @@
         let intentosEl = document.getElementById("intentos");
         let intentos = parseInt(intentosEl.value);
         intentosEl.value = intentos + 1;
+        let intentadas = document.getElementById('intentadas')
+        let intento = document.getElementById("inputUsuario").value
+        if(intentos >= 1){
+            intentadas.innerText += ', '
+        }
+        intentadas.innerText += intento
+        alert('No se encuentra esa letra');
+    }
+
+    function incrementarIntentosPalabra() {
+        let intentosEl = document.getElementById("intentos");
+        let intentos = parseInt(intentosEl.value);
+        intentosEl.value = intentos + 1;
+        let intentadas = document.getElementById('intentadas')
+        let intento = document.getElementById("inputUsuario").value
+        intentadas.innerText += ', '
+        intentadas.innerText += intento
+        alert('No es esa palabra');
     }
 
     function limpiarInput() {
@@ -90,8 +109,7 @@
         if (intento === palabra) {
             finJuego();
         } else {
-            alert("incorrecto");
-            incrementarIntentos();
+            incrementarIntentosPalabra();
         }
         limpiarInput();
     }

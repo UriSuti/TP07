@@ -6,7 +6,7 @@
     <h1 class="title">AhorcadORT</h1>
     <form class="form" action='@Url.Action("Comenzar", "Home")' method="POST" enctype="multipart/form-data">
         <input class="input" type="text" placeholder="Nombre de usuario" name="username">
-        <input class="input" type="number" placeholder="Dificultad" name="dificultad">
+        <input class="input" type="number" max="5" min="1" placeholder="Dificultad" name="dificultad">
         <input class="btn" type="submit" value="Jugar">
     </form>
 
